@@ -1,0 +1,19 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "discord.js": "github:discordjs/discord.js",
+    "ffmepg": "0.0.2-security",
+    "ffmpeg-static": "^4.2.6",
+    "fluent-ffmpeg": "^2.1.2",
+    "ytdl-core": "^3.2.1"
+  }
+}
