@@ -1,3 +1,5 @@
+const stop = require('./stop');
+const skip = require('./skip');
 const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const prefix = '£';
@@ -10,18 +12,15 @@ client.on('message',  msg => {
 
     const serverQueue = queue.get(msg.guild.id);
 
-    //serverQueue.loop = !serverQueue.loop;
     if(msg.content.startsWith(`${prefix}play`)) {
         execute(msg, serverQueue);
         return;
     } else if(msg.content.startsWith(`${prefix}skip`)) {
-        skip(msg, serverQueue);
+        skip.skip(msg, serverQueue);
         return;
     } else if(msg.content.startsWith(`${prefix}stop`)) {
-        stop(msg, serverQueue);
+        stop.stop(msg, serverQueue);
         return;
-    /*} else if (msg.content.startsWith(`${prefix}loop`)) {
-        loop(msg, serverQueue);*/
     } else {
         msg.channel.send("Vous avez entrez une commande invalide !");
     }
@@ -71,29 +70,8 @@ async function execute(message, serverQueue) {
     else {
         serverQueue.songs.push(song);
         console.log(serverQueue.songs);
-        return message.channel.send('${song.title} has been added to the queue !');
+        return message.channel.send(`**${song.title}** has been added to the queue !`);
     }
-}
-
-function skip(message, serverQueue) {
-    if (!message.member.voice.channel) {
-        return message.channel.send("Vous n'êtes pas dans un salon vocal");
-    }
-    if (!serverQueue) {
-        return message.channel.send("Pas de musique en cours");
-    }
-    serverQueue.connection.dispatcher.end();
-}
-
-function stop(message, serverQueue) {
-    if (!message.member.voice.channel) {
-        return message.channel.send("Vous n'êtes pas dans un salon vocal");
-    }
-    if (!serverQueue) {
-        return message.channel.send("Pas de musique en cours");
-    }
-    serverQueue.songs = [];
-    serverQueue.connection.dispatcher.end();
 }
 
 function play(guild, song) {
@@ -115,16 +93,5 @@ function play(guild, song) {
     dispatcher.setVolume(1);
     serverQueue.textChannel.send(`Démarrage de **${song.title}**`);
 }
-
-/*function loop(message, serverQueue) {
-    if (serverQueue.loop === false) {
-        serverQueue.loop = true;
-        message.channel.send(`Loop **activé**`);
-    } else {
-        serverQueue.loop = false;
-        message.channel.send(`Loop **désactivé**`);
-    }
-    return serverQueue;
-}*/
 
 client.login("NzA4MDEzMDkwOTUxNjU5NjAy.XrRKwQ.EijufF48jegiNNUpw6YAIJnYXZc");
