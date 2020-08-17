@@ -1,5 +1,6 @@
 const stop = require('./stop');
 const skip = require('./skip');
+const help = require('./help');
 const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const prefix = '£';
@@ -14,6 +15,9 @@ client.on('message',  msg => {
 
     if(msg.content.startsWith(`${prefix}play`)) {
         execute(msg, serverQueue);
+        return;
+    } else if(msg.cleanContent.startsWith(`${prefix}help`)) {
+        help.help(msg);
         return;
     } else if(msg.content.startsWith(`${prefix}skip`)) {
         skip.skip(msg, serverQueue);
