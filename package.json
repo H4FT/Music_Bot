@@ -14,6 +14,7 @@
     "ffmepg": "0.0.2-security",
     "ffmpeg-static": "^4.2.6",
     "fluent-ffmpeg": "^2.1.2",
+    "youtube-search": "^1.1.4",
     "ytdl-core": "^3.2.1"
   }
 }

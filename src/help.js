@@ -15,8 +15,6 @@ module.exports = {
             ],
             timestamp: new Date(),
         };
-
-        console.log('message launch');
         return message.channel.send({ embed: embed_message });
     }
 }

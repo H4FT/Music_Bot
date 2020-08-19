@@ -1,6 +1,8 @@
 const stop = require('./stop');
 const skip = require('./skip');
 const help = require('./help');
+const no_split = require('./args_no_split');
+const search = require('./search');
 const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const prefix = '£';
@@ -33,6 +35,7 @@ client.on('message',  msg => {
 async function execute(message, serverQueue) {
     const args = message.content.split(" ");
     const voiceChannel = message.member.voice.channel;
+    let arg = no_split.no_split(args);
 
     if (!voiceChannel) {
         return message.channel.send("Vous n'êtes pas dans un salon vocal");
@@ -43,11 +46,12 @@ async function execute(message, serverQueue) {
         return message.channel.send("Need permissions");
     }
 
-    const songInfo = await ytdl.getInfo(args[1]);
+    /*const songInfo = await ytdl.getInfo(arg);
     const song = {
         title: songInfo.videoDetails.title,
         url: songInfo.videoDetails.video_url,
-    };
+    };*/
+    const song = await search.srch(arg);
 
     if (!serverQueue) {
         const queueConstruct = {
@@ -74,12 +78,11 @@ async function execute(message, serverQueue) {
     else {
         serverQueue.songs.push(song);
         console.log(serverQueue.songs);
-        return message.channel.send(`**${song.title}** has been added to the queue !`);
+        return message.channel.send(`**${song[0].title}** has been added to the queue !`);
     }
 }
 
 function play(guild, song) {
-    console.log(song);
     const serverQueue = queue.get(guild.id);
 
     if (!song) {
@@ -88,14 +91,14 @@ function play(guild, song) {
         return;
     }
     const dispatcher = serverQueue.connection
-        .play(ytdl(song.url, {filter: 'audioonly'}))
+        .play(ytdl(song[0].link, {filter: 'audioonly'}))
         .on("finish", () => {
             serverQueue.songs.shift();
             play(guild, serverQueue.songs[0]);
         })
         .on("error", error => console.error(error));
     dispatcher.setVolume(1);
-    serverQueue.textChannel.send(`Démarrage de **${song.title}**`);
+    serverQueue.textChannel.send(`Démarrage de **${song[0].title}**`);
 }
 
 client.login("NzA4MDEzMDkwOTUxNjU5NjAy.XrRKwQ.EijufF48jegiNNUpw6YAIJnYXZc");
