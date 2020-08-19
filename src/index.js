@@ -1,6 +1,7 @@
 const stop = require('./stop');
 const skip = require('./skip');
 const help = require('./help');
+const list = require('./list');
 const no_split = require('./args_no_split');
 const search = require('./search');
 const Discord = require('discord.js');
@@ -18,7 +19,7 @@ client.on('message',  msg => {
     if(msg.content.startsWith(`${prefix}play`)) {
         execute(msg, serverQueue);
         return;
-    } else if(msg.cleanContent.startsWith(`${prefix}help`)) {
+    } else if(msg.content.startsWith(`${prefix}help`)) {
         help.help(msg);
         return;
     } else if(msg.content.startsWith(`${prefix}skip`)) {
@@ -27,18 +28,21 @@ client.on('message',  msg => {
     } else if(msg.content.startsWith(`${prefix}stop`)) {
         stop.stop(msg, serverQueue);
         return;
+    } else if(msg.content.startsWith(`${prefix}queue`)){
+        list.list(msg, serverQueue);
+        return;
     } else {
-        msg.channel.send("Vous avez entrez une commande invalide !");
+        msg.channel.send("Invalid command !");
     }
 })
 
 async function execute(message, serverQueue) {
     const args = message.content.split(" ");
+    let arg_complete = no_split.no_split(args);
     const voiceChannel = message.member.voice.channel;
-    let arg = no_split.no_split(args);
 
     if (!voiceChannel) {
-        return message.channel.send("Vous n'êtes pas dans un salon vocal");
+        return message.channel.send("You're not in a voice channel !");
     }
 
     const permissions = voiceChannel.permissionsFor(message.client.user);
@@ -46,12 +50,7 @@ async function execute(message, serverQueue) {
         return message.channel.send("Need permissions");
     }
 
-    /*const songInfo = await ytdl.getInfo(arg);
-    const song = {
-        title: songInfo.videoDetails.title,
-        url: songInfo.videoDetails.video_url,
-    };*/
-    const song = await search.srch(arg);
+    const song = await search.srch(arg_complete);
 
     if (!serverQueue) {
         const queueConstruct = {
@@ -98,7 +97,7 @@ function play(guild, song) {
         })
         .on("error", error => console.error(error));
     dispatcher.setVolume(1);
-    serverQueue.textChannel.send(`Démarrage de **${song[0].title}**`);
+    serverQueue.textChannel.send(`Start of **${song[0].title}**`);
 }
 
 client.login("NzA4MDEzMDkwOTUxNjU5NjAy.XrRKwQ.EijufF48jegiNNUpw6YAIJnYXZc");

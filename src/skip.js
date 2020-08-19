@@ -1,10 +1,10 @@
 module.exports = {
     skip: function skip(message, serverQueue) {
         if (!message.member.voice.channel) {
-            return message.channel.send("Vous n'êtes pas dans un salon vocal");
+            return message.channel.send("You're not in a voice channel !");
         }
         if (!serverQueue) {
-            return message.channel.send("Pas de musique en cours");
+            return message.channel.send("No music actually playing !");
         }
         serverQueue.connection.dispatcher.end();
     }
