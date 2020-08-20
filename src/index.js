@@ -1,10 +1,12 @@
 const stop = require('./stop');
 const skip = require('./skip');
+const error = require('./error_message');
 const help = require('./help');
 const list = require('./list');
 const no_split = require('./args_no_split');
 const search = require('./search');
 const remove = require('./remove');
+const loop = require('./loop');
 const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const prefix = '£';
@@ -35,8 +37,11 @@ client.on('message',  msg => {
     } else if(msg.content.startsWith(`${prefix}remove`)) {
         remove.supp(msg, serverQueue);
         return;
+    } else if(msg.content.startsWith(`${prefix}loop`)) {
+        loop.looping(msg, serverQueue);
+        return;
     } else {
-        msg.channel.send("Invalid command !");
+        error.error(msg, 2);
     }
 })
 
@@ -46,12 +51,12 @@ async function execute(message, serverQueue) {
     const voiceChannel = message.member.voice.channel;
 
     if (!voiceChannel) {
-        return message.channel.send("You're not in a voice channel !");
+        return error.error(message, 0);
     }
 
     const permissions = voiceChannel.permissionsFor(message.client.user);
     if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
-        return message.channel.send("Need permissions");
+        return error.error(message, 4);
     }
 
     const song = await search.srch(arg_complete);
@@ -61,6 +66,7 @@ async function execute(message, serverQueue) {
             textChannel: message.channel,
             voiceChannel: voiceChannel,
             connection: null,
+            loop: false,
             songs: [],
             volume: 1,
             playing: true,
@@ -96,7 +102,11 @@ function play(guild, song) {
     const dispatcher = serverQueue.connection
         .play(ytdl(song[0].link, {filter: 'audioonly'}))
         .on("finish", () => {
-            serverQueue.songs.shift();
+            if (serverQueue.loop === false) {
+                serverQueue.songs.shift();
+            } else {
+                serverQueue.songs.push(serverQueue.songs.shift());
+            }
             play(guild, serverQueue.songs[0]);
         })
         .on("error", error => console.error(error));

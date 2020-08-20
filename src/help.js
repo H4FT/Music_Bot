@@ -3,17 +3,18 @@ const Discord = require('discord.js');
 module.exports = {
     help: function help(message) {
         const embed_message = {
-            color: 0x0099f,
-            title: 'Command for Musical Bot',
-            description: 'Descriptions of all the command you can use for launch music with the bot',
+            color: 0x2FECE0,
+            title: '__Command for Musical Bot__',
+            description: 'Descriptions of all the command for use the bot',
             fields: [
-                { name: '**Prefix**', value: '**£** is the prefix for call command.' },
-                { name: '**£help**', value: 'open this message.'},
-                { name: '**£play [NAME/ID/URL]**', value: 'launch the music. If a song is already in play, bring the new song in queue.'},
-                { name: '**£skip**', value: 'skip the music in playing and pass to the next music in queue.'},
-                { name: '**£stop**', value: 'stop the music and disconnect the bot from the voice channel.'},
-                { name: '**£queue**', value: 'Show the list of music in queue.'},
-                { name: '**£remove [NB]**', value: 'Remove the music who correspond to the number enter.'}
+                { name: '**__Prefix__**', value: '**£** is the prefix for call command.' },
+                { name: '**__£help__**', value: 'open this message.'},
+                { name: '**__£play [NAME/ID/URL]__**', value: 'launch the music. If a song is already in play, bring the new song in queue.'},
+                { name: '**__£skip__**', value: 'skip the music in playing and pass to the next music in queue.'},
+                { name: '**__£stop__**', value: 'stop the music and disconnect the bot from the voice channel.'},
+                { name: '**__£loop__**', value: 'Make the queue of music loop.'},
+                { name: '**__£queue__**', value: 'Show the list of music in queue.'},
+                { name: '**__£remove [NB]__**', value: 'Remove the music who correspond to the number enter.'}
             ],
             timestamp: new Date(),
         };

@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const youtube = require('ytdl-core');
+const error = require('./error_message');
 
 module.exports = {
     supp: function supp(message, serverQueue) {
@@ -7,7 +8,7 @@ module.exports = {
 
         if (serverQueue) {
             if (!args[1] || !serverQueue.songs[args[1]] || args[1] === 0 || isNaN(parseInt(args[1], 10))) {
-                message.channel.send("You need to indicate a valid number !");
+                error.error(message, 3);
                 return;
             } else {
                 if (serverQueue.songs[parseInt(args[1], 10) + 1] === !serverQueue) {
@@ -20,7 +21,7 @@ module.exports = {
                 }
             }
         } else {
-            message.channel.send("No music in queue !");
+            error.error(message, 1);
             return;
         }
     }

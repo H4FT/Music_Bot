@@ -1,3 +1,5 @@
+const error = require('./error_message');
+
 module.exports = {
     list: function list(message, serverQueue) {
         if (serverQueue) {
@@ -8,7 +10,7 @@ module.exports = {
             }
             return;
         } else {
-            message.channel.send("No music in queue !");
+            error.error(message, 1);
             return;
         }
     }
