@@ -4,6 +4,7 @@ const help = require('./help');
 const list = require('./list');
 const no_split = require('./args_no_split');
 const search = require('./search');
+const remove = require('./remove');
 const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const prefix = '£';
@@ -30,6 +31,9 @@ client.on('message',  msg => {
         return;
     } else if(msg.content.startsWith(`${prefix}queue`)){
         list.list(msg, serverQueue);
+        return;
+    } else if(msg.content.startsWith(`${prefix}remove`)) {
+        remove.supp(msg, serverQueue);
         return;
     } else {
         msg.channel.send("Invalid command !");
