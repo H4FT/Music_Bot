@@ -14,7 +14,8 @@ module.exports = {
                 { name: '**__£stop__**', value: 'stop the music and disconnect the bot from the voice channel.'},
                 { name: '**__£loop__**', value: 'Make the queue of music loop.'},
                 { name: '**__£queue__**', value: 'Show the list of music in queue.'},
-                { name: '**__£remove [NB]__**', value: 'Remove the music who correspond to the number enter.'}
+                { name: '**__£remove [NB]__**', value: 'Remove the music who correspond to the number enter.'},
+                { name: '**__£volume [NB]__**', value: 'Change the volume for the next song.'},
             ],
             timestamp: new Date(),
         };

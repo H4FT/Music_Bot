@@ -7,6 +7,8 @@ const no_split = require('./args_no_split');
 const search = require('./search');
 const remove = require('./remove');
 const loop = require('./loop');
+const msg_valid = require('./valid_message');
+const vol = require('./volume');
 const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const prefix = '£';
@@ -40,7 +42,10 @@ client.on('message',  msg => {
     } else if(msg.content.startsWith(`${prefix}loop`)) {
         loop.looping(msg, serverQueue);
         return;
-    } else {
+    } else if(msg.content.startsWith(`${prefix}volume`)) {
+        vol.volume(msg, serverQueue);
+        return;
+    }else {
         error.error(msg, 2);
     }
 })
@@ -86,8 +91,7 @@ async function execute(message, serverQueue) {
     }
     else {
         serverQueue.songs.push(song);
-        console.log(serverQueue.songs);
-        return message.channel.send(`**${song[0].title}** has been added to the queue !`);
+        return msg_valid.mess_add(message, song);
     }
 }
 
@@ -110,8 +114,8 @@ function play(guild, song) {
             play(guild, serverQueue.songs[0]);
         })
         .on("error", error => console.error(error));
-    dispatcher.setVolume(1);
-    serverQueue.textChannel.send(`Start of **${song[0].title}**`);
+    dispatcher.setVolume(serverQueue.volume);
+    return msg_valid.mess_play(serverQueue, song)
 }
 
 client.login("NzA4MDEzMDkwOTUxNjU5NjAy.XrRKwQ.EijufF48jegiNNUpw6YAIJnYXZc");
