@@ -42,7 +42,20 @@ module.exports = {
         const embed_message = {
             color: 0x09D000,
             title: 'VOLUME',
-            description: `Volume has been changed of ${serverQueue.volume} to ${nb}`,
+            description: `Volume has been changed of **${serverQueue.volume}** to **${nb}**`,
+            timestamp: new Date(),
+        }
+        return message.channel.send( { embed: embed_message } );
+    },
+
+    mess_remove: function mess_remove(message, song) {
+        const embed_message = {
+            color: 0x09D000,
+            title: 'REMOVE',
+            description: `You remove **__${song[0].title}__** from the queue`,
+            image: {
+                url: `${song[0].thumbnails.high.url}`,
+            },
             timestamp: new Date(),
         }
         return message.channel.send( { embed: embed_message } );
