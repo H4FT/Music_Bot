@@ -20,3 +20,7 @@ _Queue: Show the current queue.
 _Remove: Remove the music choosen.
 
 _Volume: Change the volume for the next song.
+
+Modules use :
+
+Discord.js; ffmepg; ffmepg-static; fluent-ffmepg; youtube-search; ytdl-core
