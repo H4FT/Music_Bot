@@ -21,32 +21,34 @@ client.on('message',  msg => {
 
     const serverQueue = queue.get(msg.guild.id);
 
-    if(msg.content.startsWith(`${prefix}play`)) {
-        execute(msg, serverQueue);
-        return;
-    } else if(msg.content.startsWith(`${prefix}help`)) {
-        help.help(msg);
-        return;
-    } else if(msg.content.startsWith(`${prefix}skip`)) {
-        skip.skip(msg, serverQueue);
-        return;
-    } else if(msg.content.startsWith(`${prefix}stop`)) {
-        stop.stop(msg, serverQueue);
-        return;
-    } else if(msg.content.startsWith(`${prefix}queue`)){
-        list.list(msg, serverQueue);
-        return;
-    } else if(msg.content.startsWith(`${prefix}remove`)) {
-        remove.supp(msg, serverQueue);
-        return;
-    } else if(msg.content.startsWith(`${prefix}loop`)) {
-        loop.looping(msg, serverQueue);
-        return;
-    } else if(msg.content.startsWith(`${prefix}volume`)) {
-        vol.volume(msg, serverQueue);
-        return;
-    }else {
-        error.error(msg, 2);
+    let verif = msg.content.split(" ");
+    switch (verif[0]) {
+        case `${prefix}play` :
+            execute(msg, serverQueue);
+            break;
+        case `${prefix}stop` :
+            stop.stop(msg, serverQueue);
+            break;
+        case `${prefix}skip` :
+            skip.skip(msg, serverQueue);
+            break;
+        case `${prefix}loop` :
+            loop.looping(msg, serverQueue);
+            break;
+        case `${prefix}remove` :
+            remove.supp(msg, serverQueue);
+            break;
+        case `${prefix}queue` :
+            list.list(msg, serverQueue);
+            break;
+        case `${prefix}volume` :
+            vol.volume(msg, serverQueue);
+            break;
+        case `${prefix}help` :
+            help.help(msg);
+            break;
+        default :
+            error.error(msg, 2);
     }
 })
 
@@ -118,4 +120,4 @@ function play(guild, song) {
     return msg_valid.mess_play(serverQueue, song)
 }
 
-client.login("Enter your Tokken");
+client.login("Enter your Token");
