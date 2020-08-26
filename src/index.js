@@ -118,4 +118,4 @@ function play(guild, song) {
     return msg_valid.mess_play(serverQueue, song)
 }
 
-client.login("NzA4MDEzMDkwOTUxNjU5NjAy.XrRKkw.SouT3l9WOH9gMxpDV8GBhEl6KRY");
+client.login("Enter your Tokken");
