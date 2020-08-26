@@ -1,7 +1,7 @@
 const search = require('youtube-search');
 const opts = {
     maxResults: 1,
-    key: 'AIzaSyAwEridq5HXhQ9lOqFXdm_Cw8e9nBSgLTQ',
+    key: 'Enter your key',
     type: 'video'
 };
 
